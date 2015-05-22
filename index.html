@@ -1,0 +1,476 @@
+<html>
+<meta charset="utf-8" />
+
+<head>
+    <style type="text/css">
+        body {
+            background-color: #FFFBEF;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            overflow: hidden;
+        }
+        
+        #d1 {
+            height: 400px;
+        }
+        
+        #d5 {
+            text-align: center;
+        }
+        
+        #d1 div {
+            width: 8px;
+            display: inline-block;
+            background-color: rgb(27, 171, 155);
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        
+        #d4 div {
+            width: 80px;
+            height: 3px;
+            display: inline-block;
+            background-color: rgb(20, 129, 117);
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        
+        div.sup {
+            height: 200px;
+            visibility: hidden;
+        }
+        
+        #d2 {
+            color: white;
+            font-size: 50px;
+            text-align: center;
+            margin: 2px;
+            background-color: #F2BE4E;
+            max-width: 420px;
+            margin-bottom: 0px;
+        }
+        
+        #d6 {
+            color: #868584;
+            font-size: 30px;
+            margin-top: 20px;
+        }
+        
+        #d3 {
+            color: rgb(20, 129, 117);
+            font-size: 20px;
+            text-align: center;
+            font-weight: bold;
+            position: relative;
+            background: rgb(20, 129, 117);
+            background: rgba(255, 255, 255, 0.90);
+            padding: 20px;
+            display: table;
+            padding-left: 35px;
+            padding-right: 35px;
+            border: 1px solid rgb(20, 129, 117);
+        }
+        
+        #d5 {
+            text-align: center;
+        }
+        
+        #d7 {
+            background-image: url(g3.jpg);
+            background-position: top;
+            background-repeat: no-repeat;
+            min-height: 100px;
+            font-size: 25px;
+            color: white;
+            padding: 10px;
+            font-weight: lighter;
+            visibility: hidden;
+        }
+        
+        #d8 {
+            display: table;
+            width: 420px;
+        }
+        
+        #d9 {
+            width: 100%;
+            height: 10px;
+            font-size: 25px;
+            min-height: 30px;
+            text-align: center;
+            color: white;
+            padding-bottom: 3px;
+            margin-bottom: 10px;
+        }
+        
+        #d10 {
+            width 100%;
+            text-align: center;
+        }
+        
+        #d10 div {
+            display: inline-block;
+            margin-left: 3px;
+            margin-right: 3px;
+            width: 30px;
+            height: 50px;
+        }
+        
+        button {
+            background-color: rgb(20, 129, 117);
+            padding: 3px;
+            font-size: 25px;
+            color: white;
+            padding-left: 20px;
+            padding-right: 20px;
+            border: none;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="d5">
+        <div id="d4">
+        </div>
+        <div id="d1">
+        </div>
+        <center>
+            <div id="d6">Score</div>
+            <div id="d2"></div>
+
+
+
+            <div id="d8">
+                <div id="d9"></div>
+                <div id="d10" align="center"></div>
+
+            </div>
+
+
+            <div id="d3"></div>
+
+            <div id="d7"> Starter
+            </div>
+
+        </center>
+    </div>
+    <script type="text/javascript">
+        maxh = 400;
+        starth = maxh / 8;
+        minh = maxh / 20;
+        barWidth = maxh / 5;
+        GameOver = false;
+        fAcc = maxh / 8;
+        acc = fAcc + 1.5 * fAcc / 5;
+        v3 = -1;
+        v4 = 2.65;
+        v1 = v3 * acc;
+        v2 = v4 * 3;
+        t0 = Date.now();
+        tt = 0;
+        t1 = 0;
+        score = 0;
+        towers = 3;
+        twh = '';
+        deadColor = 'rgb(20, 129, 117)';
+        clicks = 0;
+        goUp = 500;
+        Bw = 100;
+        br = 0.3;
+        bw = parseInt(Bw * br);
+        mw = Bw - bw;
+        bh = 35;
+        bmw = bw + mw;
+
+
+        startCol = {
+            r: 153,
+            g: 202,
+            b: 60
+        };
+
+        endCol = {
+            r: 101,
+            g: 154,
+            b: 65
+        };
+
+
+        belts = [
+            {
+                color: '#6EC931',
+                title: 'Starter',
+                lastVal: 20
+            },
+            {
+                color: '#FFAE00',
+                title: 'Learner',
+                lastVal: 200
+            },
+            {
+                color: '#EE4639',
+                title: 'Improver',
+                lastVal: 500
+            },
+            {
+                color: '#3D7E56',
+                title: 'Striker',
+                lastVal: 1000
+            },
+
+            {
+                color: '#0879F9',
+                title: 'Fighter',
+                lastVal: 2500
+            },
+
+            {
+                color: '#1A4175',
+                title: 'Destroyer',
+                lastVal: 6000
+            },
+            {
+                color: '#4E467B',
+                title: 'Champion',
+                lastVal: 15000
+            },
+            {
+                color: '#BE1E2D',
+                title: 'Dragon',
+                lastVal: 50000
+            },
+            {
+                color: '#382411',
+                title: 'Master',
+                lastVal: 250000
+            },
+            {
+                color: '#141915',
+                title: 'Grandmaster',
+                lastVal: 9999999999999999
+            }
+
+        ];
+
+        badge = 0;
+
+
+        alert1("0");
+
+
+        function findColor(h) {
+            h += '';
+            h = parseInt(h.split('px')[0]);
+            r = parseInt(startCol.r + h * (endCol.r - startCol.r) / maxh);
+            g = parseInt(startCol.g + h * (endCol.g - startCol.g) / maxh);
+            b = parseInt(startCol.b + h * (endCol.b - startCol.b) / maxh);
+            return 'rgb(' + r + ',' + g + ',' + b + ')';
+        }
+
+
+        for (i = 0; i < towers; i++) {
+            twh += '<div></div>';
+        }
+
+
+        d1 = document.getElementById('d1');
+        d2 = document.getElementById('d2');
+        d4 = document.getElementById('d4');
+        d9 = document.getElementById('d9');
+        d10 = document.getElementById('d10');
+        d1.innerHTML = '<div class="sup"></div>' + twh + '<div class="sup"></div>';
+        bars = d1.getElementsByTagName('div');
+        margins = d4.getElementsByTagName('div');
+        d4.innerHTML = twh;
+        dt = document.getElementById('d3').style;
+
+        for (i = 0; i < belts.length; i++) {
+            d = document.createElement('div');
+            d.style.backgroundColor = belts[i].color;
+            d10.appendChild(d);
+        }
+
+
+        badges = d10.getElementsByTagName('div');
+
+        function f3() {
+            badge = 0;
+            for (o = 0; o < badges.length; o++) {
+                badges[o].style.width = bh + 'px';
+                if (o <= badge) {
+                    badges[o].style.height = bmw + 'px';
+                    badges[o].style.marginTop = '0px';
+                } else {
+                    badges[o].style.height = bw + 'px';
+                    badges[o].style.marginTop = mw + 'px';
+                }
+            }
+
+
+            d9.innerHTML = '(( ' + belts[badge].title + ' ))';
+            d9.style.backgroundColor = belts[badge].color;
+            d2.style.backgroundColor = belts[badge].color;
+        }
+
+        f3();
+
+
+
+
+
+
+
+        for (i = 0; i < margins.length; i++) {
+            margins[i].style.backgroundColor = findColor(maxh);
+            margins[i].style.width = barWidth;
+        }
+
+        for (i = 0; i < bars.length; i++) {
+            if (i != 0 && i != bars.length - 1) {
+                bars[i].no = i;
+                bars[i].hi = starth;
+                bars[i].addEventListener('click', function () {
+                    if (!GameOver) {
+                        clicks++;
+                        no = this.no;
+                        score += t1 + 1;
+                        if (v4 < 3) {
+                            if (v4 < 2.75)
+                                v4 += .01;
+                            else
+                                v4 += .005;
+                        } else
+                            v4 = 3;
+                        v2 = v4 * 3;
+
+                        if (score >= belts[badge].lastVal) {
+                            badge++;
+                            d9.innerHTML = '(( ' + belts[badge].title + ' ))';
+                            d9.style.backgroundColor = belts[badge].color;
+                            d2.style.backgroundColor = belts[badge].color;
+                            for (o = 0; o < badges.length; o++) {
+                                if (o <= badge) {
+                                    badges[o].style.height = bmw + 'px';
+                                    badges[o].style.marginTop = '0px';
+                                } else {
+                                    badges[o].style.height = bw + 'px';
+                                    badges[o].style.marginTop = mw + 'px';
+                                }
+                            }
+
+                        }
+
+                        alert1(score);
+                        if (clicks % 5 == 0 && acc > 50)
+                            acc--;
+
+                        for (j = 1; j < bars.length - 1; j++) {
+                            bs = bars[j].style;
+                            if (j == no) {
+                                v1 = v3 * acc;
+                                //cb = parseInt(bs.height.split('px')[0]);
+                                // bs.height = cb + v1 + 'px';
+                                bars[j].hi += v1;
+
+                            } else {
+                                //tmp2 = parseInt(bs.height.split('px')[0]) + v2;
+                                // bs.height = tmp2 + 'px';
+                                bars[j].hi += v2;
+
+                            }
+                            bs.height = parseInt(bars[j].hi) + 'px';
+                        }
+                    }
+                });
+            } else {
+                bars[i].hi = maxh;
+                bars[i].style.height = bars[i].hi + 'px';
+            }
+
+            bars[i].style.width = barWidth + 'px';
+
+        }
+
+
+        function f2() {
+            for (i = 1; i < bars.length - 1; i++) {
+                bs = bars[i].style;
+                if (!bs.height) {
+                    bars[i].hi = starth;
+                    bs.height = starth + 'px';
+                }
+                m = v3;
+                if (Math.random() > 0.5) m = v4;
+                // tmp = parseInt(bs.height.split('px')[0]) + m;
+                tmp = bars[i].hi + m;
+                if (tmp > maxh) {
+                    tmp = maxh;
+                    //bs.height = maxh + 'px';
+                    bs.backgroundColor = deadColor;
+                    GameOver = true;
+                } else if (tmp <= minh) {
+                    tmp = minh;
+                } else {
+                    // bars[i].hi = tmp;
+                }
+                bars[i].hi = tmp;
+                bs.height = parseInt(bars[i].hi) + 'px';
+                bs.backgroundColor = findColor(bs.height);
+            }
+
+
+            t1 = parseInt((Date.now() - t0) / 1000);
+            if (t1 - tt > 0) {
+                tt = t1;
+                //alert1("Score: " + score);
+            }
+
+            if (!GameOver) {
+                requestAnimationFrame(f2);
+                //setTimeout(f2, 15);
+
+            } else {
+                alert2('<font size="10">Game Over!</font><br/><br/><button onclick="Restart()">Play Again</button>');
+                dt.bottom = goUp + 'px';
+            }
+        }
+
+        requestAnimationFrame(f2);
+        //setTimeout(f2, 30);
+
+        function alert1(x) {
+            document.getElementById('d2').innerHTML = x;
+        }
+
+        function alert2(x) {
+            document.getElementById('d3').innerHTML = x;
+        }
+
+        function Restart() {
+
+            for (i = 1; i < bars.length - 1; i++) {
+                bars[i].hi = starth;
+                bs = bars[i].style;
+                bs.height = starth + 'px';
+            }
+            f3();
+
+            t0 = Date.now();
+            GameOver = false;
+            score = 0;
+            requestAnimationFrame(f2);
+            alert1("0");
+            alert2("");
+            dt.bottom = '0px';
+
+        }
+    </script>
+
+</body>
+
+</html>
